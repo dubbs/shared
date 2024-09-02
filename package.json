@@ -1,8 +1,8 @@
 {
   "name": "@dubbs/shared",
-  "version": "1.0.0",
-  "description": "",
-  "main": "dist/index.js",
+  "version": "1.0.1",
+  "description": "Shared repository for all functions used across projects.",
+  "main": "src/index.ts",
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "jest",
@@ -22,5 +22,8 @@
   },
   "dependencies": {
     "puppeteer": "^22.12.1"
+  },
+  "directories": {
+    "test": "tests"
   }
 }
