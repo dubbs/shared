@@ -1,6 +1,6 @@
 {
   "name": "@dubbs/shared",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Shared repository for all functions used across projects.",
   "main": "src/index.ts",
   "types": "dist/index.d.ts",
