@@ -1,5 +1,6 @@
 /**
  * Date yesterday
+ * @kind function
  * @return {Date}
  */
 export const dateYesterday = () => {
@@ -10,6 +11,7 @@ export const dateYesterday = () => {
 
 /**
  * Date tomorrow
+ * @kind function
  * @return {Date}
  */
 export const dateTomorrow = () => {
@@ -20,8 +22,9 @@ export const dateTomorrow = () => {
 
 /**
  * Date format short
- * @example 2024-02-18
- * @return {string}
+ * @param {Date} date - The date to format
+ * @kind function
+ * @return {string} 2024-02-18
  */
 export const dateFormatIsoShort = (date) => {
   return new Intl.DateTimeFormat("en-CA", {
@@ -34,8 +37,9 @@ export const dateFormatIsoShort = (date) => {
 
 /**
  * Date format long
- * @example 2024-02-18T00:00:00-06:00
- * @return {string}
+ * @param {Date} date - The date to format
+ * @kind function
+ * @return {string} 2024-02-18T00:00:00-06:00
  */
 export const dateFormatIsoLong = (date) => {
   return dateFormatIsoShort(date) + "T00:00:00-06:00";
@@ -43,8 +47,9 @@ export const dateFormatIsoLong = (date) => {
 
 /**
  * Date format time
- * @example 12:00 p.m.
- * @return {string}
+ * @param {Date} date - The date to format
+ * @kind function
+ * @return {string} 12:00 p.m.
  */
 export const dateFormatTime = (date) => {
   return new Intl.DateTimeFormat("en-CA", {
@@ -56,8 +61,9 @@ export const dateFormatTime = (date) => {
 
 /**
  * Date format short
- * @example Thu, Feb 15
- * @return {string}
+ * @param {Date} date - The date to format
+ * @kind function
+ * @return {string} Thu, Feb 15
  */
 export const dateFormatShort = (date) => {
   return new Intl.DateTimeFormat("en-CA", {
@@ -70,8 +76,9 @@ export const dateFormatShort = (date) => {
 
 /**
  * Date format long
- * @example Fri, Feb 16, 5:46 p.m.
- * @return {string}
+ * @param {Date} date - The date to format
+ * @kind function
+ * @return {string} Fri, Feb 16, 5:46 p.m.
  */
 export const dateFormatLong = (date) => {
   return new Intl.DateTimeFormat("en-CA", {

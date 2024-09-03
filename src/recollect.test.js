@@ -1,4 +1,4 @@
-import { expect, test } from "@jest/globals";
+import { expect, test, jest } from "@jest/globals";
 import { recollect } from "./recollect";
 
 test("should have api available (NetworkTest)", async () => {
@@ -37,7 +37,7 @@ test("should map response (MockTest)", async () => {
         ],
       }),
   });
-  const garbage = await getGarbage();
-  expect(garbage[0].type).toBe("Garbage");
-  expect(garbage[0].date).toBe("2024-04-05T06:00:00.000Z");
+  const data = await recollect();
+  expect(data[0].type).toBe("Garbage");
+  expect(data[0].date).toBe("2024-04-05T06:00:00.000Z");
 });

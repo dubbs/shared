@@ -2,3 +2,5 @@ node_modules/
 .idea/
 README.me.md
 docs/
+.env
+.DS_Store

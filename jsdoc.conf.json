@@ -20,6 +20,12 @@
   "opts" : {
     "template": "node_modules/docdash",
     "destination": "./docs",
-    "recurse": true
+    "recurse": true,
+    "encoding": "utf8",
+    "verbose": true
+  },
+  "docdash": {
+    "search": true,
+    "typedefs": true
   }
 }

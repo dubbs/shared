@@ -229,7 +229,7 @@ export const xboxGamePassGamesPuppeteer = async () => {
 
 /**
  *
- * @param url {string}
+ * @param {string} url - The URL to fetch
  * @return {Promise<string>}
  */
 export const puppeteerGetHtml = async (url) => {

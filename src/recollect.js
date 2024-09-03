@@ -5,8 +5,17 @@ if (!process.env.RECOLLECT_URL) {
 const RECOLLECT_URL = process.env.RECOLLECT_URL;
 
 /**
- * Fetches the Recollect API and returns the events.
- * @return {Promise<unknown>}
+ * An event from Recollect.
+ * @typedef {Object} RecollectItem
+ * @property {string} date - A date string.
+ * @property {string} type - A string.
+ */
+
+/**
+ * Fetches events from the Recollect API.
+ * @kind function
+ * @async
+ * @return {Promise<RecollectItem[]>}
  */
 export const recollect = async () => {
   const response = await fetch(RECOLLECT_URL);
