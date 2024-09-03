@@ -1,17 +1,29 @@
-export const dateYesterday = (): Date => {
+/**
+ * Date yesterday
+ * @return {Date}
+ */
+export const dateYesterday = () => {
   const date = new Date();
   date.setDate(date.getDate() - 1);
   return date;
 };
 
-export const dateTomorrow = (): Date => {
+/**
+ * Date tomorrow
+ * @return {Date}
+ */
+export const dateTomorrow = () => {
   const date = new Date();
   date.setDate(date.getDate() + 1);
   return date;
 };
 
-// 2024-02-18
-export const dateFormatIsoShort = (date: Date): string => {
+/**
+ * Date format short
+ * @example 2024-02-18
+ * @return {string}
+ */
+export const dateFormatIsoShort = (date) => {
   return new Intl.DateTimeFormat("en-CA", {
     month: "numeric",
     day: "numeric",
@@ -20,13 +32,21 @@ export const dateFormatIsoShort = (date: Date): string => {
   }).format(date);
 };
 
-// 2024-02-18T00:00:00-06:00
-export const dateFormatIsoLong = (date: Date): string => {
+/**
+ * Date format long
+ * @example 2024-02-18T00:00:00-06:00
+ * @return {string}
+ */
+export const dateFormatIsoLong = (date) => {
   return dateFormatIsoShort(date) + "T00:00:00-06:00";
 };
 
-// 12:00 p.m.
-export const dateFormatTime = (date: Date): string => {
+/**
+ * Date format time
+ * @example 12:00 p.m.
+ * @return {string}
+ */
+export const dateFormatTime = (date) => {
   return new Intl.DateTimeFormat("en-CA", {
     hour: "numeric",
     minute: "numeric",
@@ -34,8 +54,12 @@ export const dateFormatTime = (date: Date): string => {
   }).format(date);
 };
 
-// Thu, Feb 15
-export const dateFormatShort = (date: Date): string => {
+/**
+ * Date format short
+ * @example Thu, Feb 15
+ * @return {string}
+ */
+export const dateFormatShort = (date) => {
   return new Intl.DateTimeFormat("en-CA", {
     weekday: "short",
     month: "short",
@@ -44,8 +68,12 @@ export const dateFormatShort = (date: Date): string => {
   }).format(date);
 };
 
-// Fri, Feb 16, 5:46 p.m.
-export const dateFormatLong = (date: Date): string => {
+/**
+ * Date format long
+ * @example Fri, Feb 16, 5:46 p.m.
+ * @return {string}
+ */
+export const dateFormatLong = (date) => {
   return new Intl.DateTimeFormat("en-CA", {
     weekday: "short",
     month: "short",

@@ -2,10 +2,20 @@ import puppeteer from "puppeteer";
 import fs from "fs";
 import crypto from "crypto";
 
-export const delay = (ms: number) =>
-  new Promise((resolve) => setTimeout(resolve, ms));
+/**
+ * Delay
+ * @param ms {number}
+ * @return {Promise<unknown>}
+ */
+export const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const fetchRequest = async (url: string, referrer: string) => {
+/**
+ * Fetch Request
+ * @param url {string}
+ * @param referrer {string}
+ * @return {Promise<Response>}
+ */
+const fetchRequest = async (url, referrer) => {
   return await fetch(url, {
     headers: {
       accept: "application/json, text/plain, */*",
@@ -30,14 +40,18 @@ const fetchRequest = async (url: string, referrer: string) => {
   });
 };
 
-export type XboxGamePassGame = {
-  id: string;
-  img: string;
-  releaseDate: string;
-  title: string;
-  url: string;
-};
+// export type XboxGamePassGame = {
+//   id: string;
+//   img: string;
+//   releaseDate: string;
+//   title: string;
+//   url: string;
+// };
 
+/**
+ * Meta Critic Games
+ * @return {Promise<unknown>}
+ */
 export const metaCriticGames = async () => {
   const response = await fetchRequest(
     "https://internal-prod.apigee.fandom.net/v1/xapi/finder/metacritic/web?sortBy=-metaScore&productType=games&gamePlatformIds=1500000129&page=2&releaseYearMin=1958&releaseYearMax=2024&offset=24&limit=24&apiKey=1MOZgmNFxvmljaQR1X9KAij9Mo4xAY3u",
@@ -60,15 +74,23 @@ export const metaCriticGames = async () => {
   return items;
 };
 
+/**
+ * Gamepass Ids
+ * @return {Promise<unknown>}
+ */
 export const xboxGamePassIds = async () => {
   const response = await fetchRequest(
     "https://catalog.gamepass.com/sigls/v2?id=f6f1f99f-9b49-4ccd-b3bf-4d9767a77f5e&language=en-ca&market=CA",
     "https://www.xbox.com/",
   );
   let json = await response.json();
-  return json.slice(1).map((item: any) => item.id);
+  return json.slice(1).map((item) => item.id);
 };
 
+/**
+ * Gamepass Catalog Urls
+ * @return {Promise<string[]>}
+ */
 export const xboxGamePassCatalogUrls = async () => {
   const ids = await xboxGamePassIds();
 
@@ -85,8 +107,13 @@ export const xboxGamePassCatalogUrls = async () => {
   );
 };
 
-export const xboxGamePassGame = (game: any) => {
-  const slugify = (str: string) =>
+/**
+ * Xbox Game Pass Game
+ * @param game
+ * @return {unknown}
+ */
+export const xboxGamePassGame = (game) => {
+  const slugify = (str) =>
     str
       .toLowerCase()
       .trim()
@@ -94,7 +121,7 @@ export const xboxGamePassGame = (game: any) => {
       .replace(/[\s_-]+/g, "-")
       .replace(/^-+|-+$/g, "");
   const [score, scoreCount] = game.MarketProperties[0].UsageData.reduce(
-    (acc: any, val: any) => {
+    (acc, val) => {
       if (val.AggregateTimeSpan === "AllTime") {
         return [val.AverageRating, val.RatingCount];
       }
@@ -116,7 +143,7 @@ export const xboxGamePassGame = (game: any) => {
     score,
     scoreCount,
     // XblLocalCoop,
-    images: game.LocalizedProperties[0].Images.map((y: any) => {
+    images: game.LocalizedProperties[0].Images.map((y) => {
       if (y.ImagePurpose === "FeaturePromotionalSquareArt") {
         return {
           url: y.Uri,
@@ -124,10 +151,14 @@ export const xboxGamePassGame = (game: any) => {
           width: y.Width,
         };
       }
-    }).filter((x: any) => x),
+    }).filter((x) => x),
   };
 };
 
+/**
+ * Xbox Game Pass Games
+ * @return {Promise<unknown>}
+ */
 export const xboxGamePassGames = async () => {
   let filenameGames = `./public/xbox-cache/gamepass-all.json`;
   if (fs.existsSync(filenameGames)) {
@@ -159,6 +190,10 @@ export const xboxGamePassGames = async () => {
   return games;
 };
 
+/**
+ * Xbox Game Pass Games Puppeteer
+ * @return {Promise<unknown>}
+ */
 export const xboxGamePassGamesPuppeteer = async () => {
   const browser = await puppeteer.launch({});
   const page = await browser.newPage();
@@ -180,19 +215,24 @@ export const xboxGamePassGamesPuppeteer = async () => {
   }
 
   return await page.$$eval(".gameDivsWrapper section", (elements) => {
-    return elements.map((element: HTMLElement) => {
+    return elements.map((element) => {
       return {
         id: element.dataset.bigid,
         img: element.querySelector("img")?.getAttribute("src"),
         releaseDate: element.dataset.releasedate,
         title: element.querySelector(".x1GameName")?.textContent,
         url: element.querySelector(".gameDivLink")?.getAttribute("href"),
-      } as XboxGamePassGame;
+      };
     });
   });
 };
 
-export const puppeteerGetHtml = async (url: string) => {
+/**
+ *
+ * @param url {string}
+ * @return {Promise<string>}
+ */
+export const puppeteerGetHtml = async (url) => {
   const browser = await puppeteer.launch({});
   const page = await browser.newPage();
   await page.setViewport({ width: 1920, height: 1080 });
