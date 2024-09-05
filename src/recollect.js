@@ -13,7 +13,7 @@ const RECOLLECT_URL = process.env.RECOLLECT_URL;
 
 /**
  * Fetches events from the Recollect API.
- * @kind function
+ * @function
  * @async
  * @return {Promise<RecollectItem[]>}
  */

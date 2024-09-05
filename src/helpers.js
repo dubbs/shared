@@ -32,8 +32,8 @@ export const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 /**
  * Fetch Request
- * @function
  * @async
+ * @function
  * @param {string} url
  * @param {string} referrer
  * @return {Promise<Response>}
@@ -65,6 +65,8 @@ const fetchRequest = async (url, referrer) => {
 
 /**
  * Meta Critic Games
+ * @async
+ * @function
  * @return {Promise<unknown>}
  */
 export const metaCriticGames = async () => {
@@ -128,6 +130,7 @@ export const xboxGamePassCatalogUrls = async () => {
 
 /**
  * Xbox Game Pass Game
+ * @function
  * @param {XboxGameRemote} game
  * @return {XboxGameLocal}
  */
@@ -213,7 +216,9 @@ export const xboxGamePassGames = async () => {
 
 /**
  * Xbox Game Pass Games Puppeteer
- * @return {Promise<unknown>}
+ * @async
+ * @function
+ * @return {Promise<XboxGameLocal[]>}
  */
 export const xboxGamePassGamesPuppeteer = async () => {
   const browser = await puppeteer.launch({});

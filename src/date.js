@@ -1,6 +1,6 @@
 /**
  * Date yesterday
- * @kind function
+ * @function
  * @return {Date}
  */
 export const dateYesterday = () => {
@@ -11,7 +11,7 @@ export const dateYesterday = () => {
 
 /**
  * Date tomorrow
- * @kind function
+ * @function
  * @return {Date}
  */
 export const dateTomorrow = () => {
@@ -22,8 +22,8 @@ export const dateTomorrow = () => {
 
 /**
  * Date format short
+ * @function
  * @param {Date} date - The date to format
- * @kind function
  * @return {string} 2024-02-18
  */
 export const dateFormatIsoShort = (date) => {
@@ -37,8 +37,8 @@ export const dateFormatIsoShort = (date) => {
 
 /**
  * Date format long
+ * @function
  * @param {Date} date - The date to format
- * @kind function
  * @return {string} 2024-02-18T00:00:00-06:00
  */
 export const dateFormatIsoLong = (date) => {
@@ -47,8 +47,8 @@ export const dateFormatIsoLong = (date) => {
 
 /**
  * Date format time
+ * @function
  * @param {Date} date - The date to format
- * @kind function
  * @return {string} 12:00 p.m.
  */
 export const dateFormatTime = (date) => {
@@ -61,8 +61,8 @@ export const dateFormatTime = (date) => {
 
 /**
  * Date format short
+ * @function
  * @param {Date} date - The date to format
- * @kind function
  * @return {string} Thu, Feb 15
  */
 export const dateFormatShort = (date) => {
@@ -76,8 +76,8 @@ export const dateFormatShort = (date) => {
 
 /**
  * Date format long
+ * @function
  * @param {Date} date - The date to format
- * @kind function
  * @return {string} Fri, Feb 16, 5:46 p.m.
  */
 export const dateFormatLong = (date) => {
