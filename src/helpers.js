@@ -3,16 +3,39 @@ import fs from "fs";
 import crypto from "crypto";
 
 /**
+ * XboxGameLocal
+ * @typedef {Object} XboxGameLocal
+ * @property {string} id - The ID.
+ * @property {string} img - The image URL.
+ * @property {string} releaseDate - The release date.
+ * @property {string} title - The title.
+ * @property {string} url - The URL.
+ */
+
+/**
+ * XboxGameRemote
+ * @typedef {Object} XboxGameRemote
+ * @property {Array.<{UsageData, OriginalReleaseDate}>} MarketProperties - The market properties.
+ * @property {Array.<{ProductTitle, ShortDescription, PublisherName}>} LocalizedProperties - The properties.
+ * @property {Array.<{ImagePurpose, Uri, Height, Width}>} Images - The images.
+ * @property {{Category, XboxConsoleGenCompatible}} Properties - The properties.
+ * @property {string} ProductId - The product ID.
+ */
+
+/**
  * Delay
- * @param ms {number}
+ * @function
+ * @param {function} ms - The time to wait
  * @return {Promise<unknown>}
  */
 export const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 /**
  * Fetch Request
- * @param url {string}
- * @param referrer {string}
+ * @function
+ * @async
+ * @param {string} url
+ * @param {string} referrer
  * @return {Promise<Response>}
  */
 const fetchRequest = async (url, referrer) => {
@@ -39,14 +62,6 @@ const fetchRequest = async (url, referrer) => {
     credentials: "same-origin",
   });
 };
-
-// export type XboxGamePassGame = {
-//   id: string;
-//   img: string;
-//   releaseDate: string;
-//   title: string;
-//   url: string;
-// };
 
 /**
  * Meta Critic Games
@@ -75,8 +90,10 @@ export const metaCriticGames = async () => {
 };
 
 /**
- * Gamepass Ids
- * @return {Promise<unknown>}
+ * Get a list of Xbox gamepass ids
+ * @async
+ * @function
+ * @return {Promise<string[]>}
  */
 export const xboxGamePassIds = async () => {
   const response = await fetchRequest(
@@ -89,6 +106,8 @@ export const xboxGamePassIds = async () => {
 
 /**
  * Gamepass Catalog Urls
+ * @async
+ * @function
  * @return {Promise<string[]>}
  */
 export const xboxGamePassCatalogUrls = async () => {
@@ -109,8 +128,8 @@ export const xboxGamePassCatalogUrls = async () => {
 
 /**
  * Xbox Game Pass Game
- * @param game
- * @return {unknown}
+ * @param {XboxGameRemote} game
+ * @return {XboxGameLocal}
  */
 export const xboxGamePassGame = (game) => {
   const slugify = (str) =>
@@ -157,7 +176,9 @@ export const xboxGamePassGame = (game) => {
 
 /**
  * Xbox Game Pass Games
- * @return {Promise<unknown>}
+ * @async
+ * @function
+ * @return {Promise<XboxGameLocal[]>}
  */
 export const xboxGamePassGames = async () => {
   let filenameGames = `./public/xbox-cache/gamepass-all.json`;

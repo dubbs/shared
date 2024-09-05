@@ -4,12 +4,12 @@
   "description": "Shared repository for all functions used across projects.",
   "main": "src/index.js",
   "scripts": {
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --testNamePattern MockTest",
     "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch",
     "docs": "jsdoc -c jsdoc.conf.json"
   },
   "type": "module",
-  "author": "Kevin Warrington",
+  "author": "dubbs",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.25.2",
