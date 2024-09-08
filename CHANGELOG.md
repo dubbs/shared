@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.3](https://github.com/dubbs/shared/compare/v1.2.2...v1.2.3) (2024-09-08)
+
+
+### Bug Fixes
+
+* remove dist ([7b20ed9](https://github.com/dubbs/shared/commit/7b20ed9552f203ebbf757550f866ae0277f1b98f))
+
 ## [1.2.2](https://github.com/dubbs/shared/compare/v1.2.1...v1.2.2) (2024-09-08)
 
 
