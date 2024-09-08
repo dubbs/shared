@@ -1,8 +1,8 @@
 import { expect, test, jest } from "@jest/globals";
-import { getLandmark } from "./movie.js";
+import { moviesLandmark } from "./movie.js";
 
 test("should have api available (NetworkTest)", async () => {
-  const summary = await getLandmark(true);
+  const summary = await moviesLandmark(true);
   expect(summary).toHaveProperty("location");
   expect(summary).toHaveProperty("movies");
   if (summary.movies[0]) {
@@ -29,7 +29,7 @@ test("should map response (MockTest)", async () => {
 </script>
         `),
   });
-  const summary = await getLandmark(true);
+  const summary = await moviesLandmark(true);
   expect(summary.movies).toHaveLength(9);
 
   expect(summary.movies[0].movie).toMatchObject({

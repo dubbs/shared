@@ -1,43 +1,31 @@
 import { dateFormatIsoShort, dateFormatLong } from "./date.js";
-// import * as fs from "node:fs";
-//
-// export type Movie = {
-//   url: string;
-//   name: string;
-//   duration: number; // mins
-//   contentRating: string;
-//   genre: string; // comma separated
-//   thumbnailUrl: string;
-// };
-//
-// export type Place = {
-//   identifier: number;
-//   name: string;
-// };
-//
-// export type ScreeningEvent = {
-//   videoFormat: string;
-//   subEvent: Event[];
-// };
-//
-// export type Event = {
-//   startDate: string;
-// };
-//
-// export type ScreeningSummary = {
-//   location: Place;
-//   movies: [
-//     {
-//       movie: Movie;
-//       screeningEvents: ScreeningEvent[];
-//     },
-//   ];
-// };
 
 /**
- * @typedef {Object} ScreeningSummary
- * @property {Object} location - The location.
- * @property {Array.<{movie, screeningEvents}>} movies - The movies.
+ * @typedef {Object} Movie
+ * @property {string} url - The URL.
+ * @property {string} name - The name.
+ * @property {number} duration - The duration in minutes.
+ * @property {string} contentRating - The content rating.
+ * @property {string} genre - The genre.
+ * @property {string} thumbnailUrl - The thumbnail URL.
+ */
+
+/**
+ * @typedef {Object} MovieLocation
+ * @property {number} identifier - The identifier.
+ * @property {string} name - The name.
+ */
+
+/**
+ * @typedef {Object} MovieScreening
+ * @property {string} videoFormat - The video format.
+ * @property {Array.<{startDate: string}>} subEvent - The sub events.
+ */
+
+/**
+ * @typedef {Object} MovieScreenings
+ * @property {Movie} movie - The movie.
+ * @property {Array.<MovieScreening>} screeningEvents - The screening events.
  */
 
 /**
@@ -45,9 +33,9 @@ import { dateFormatIsoShort, dateFormatLong } from "./date.js";
  * @async
  * @function
  * @param {boolean} keepAll - Whether to keep all movies.
- * @return {Promise<ScreeningSummary>}
+ * @return {Promise<{location: MovieLocation, movies: MovieScreenings[]}>}
  */
-export const getLandmark = async (keepAll = false) => {
+export const moviesLandmark = async (keepAll = false) => {
   const response = await fetch(
     "https://www.landmarkcinemas.com/showtimes/saskatoon",
   );
@@ -58,7 +46,7 @@ export const getLandmark = async (keepAll = false) => {
   let text = [...matches][0][1];
   let json = eval(`let data; ${text}`);
 
-  const showing = {
+  return {
     location: {
       identifier: 0,
       name: "Landmark Cinemas",
@@ -137,15 +125,14 @@ export const getLandmark = async (keepAll = false) => {
         return keepAll || movie.screeningEvents.length > 0;
       }),
   };
-  return showing;
 };
 
 /**
  * Get the screening summary for today by location
  * @param {number} locationId
- * @return {Promise<ScreeningSummary>}>}
+ * @return {Promise<{location: MovieLocation, movies: MovieScreenings[]}>}
  */
-export const screeningSummaryForTodayByLocation = async (locationId) => {
+export const moviesCineplex = async (locationId) => {
   const date = dateFormatIsoShort(new Date());
   const response = await fetch(
     `https://apis.cineplex.com/prod/cpx/theatrical/api/v1/showtimes?language=en&locationId=${locationId}&date=${date}`,
@@ -195,14 +182,13 @@ export const screeningSummaryForTodayByLocation = async (locationId) => {
         }),
       };
     });
-    const showing = {
+    return {
       location: {
         identifier: json[0].theatreId,
         name: json[0].theatre,
       },
       movies: movies,
     };
-    return showing;
   } catch (e) {
     return {
       location: {
