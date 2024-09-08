@@ -1,4 +1,4 @@
-import { dateFormatIsoShort, dateFormatLong } from "./date.js";
+import { dateFormatIsoShort, dateFormatLong } from "./date";
 
 /**
  * @typedef {Object} Movie

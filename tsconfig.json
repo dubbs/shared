@@ -3,7 +3,8 @@
     "target": "ESNext",
     "module": "ESNext",
     "declaration": true,
-    "outDir": "./dist",
+    "emitDeclarationOnly": true,
+    "outDir": "./types",
     "strict": true,
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node", // Use Node.js module resolution

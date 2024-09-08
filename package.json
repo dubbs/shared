@@ -3,8 +3,7 @@
   "version": "1.2.2",
   "description": "Shared repository for all functions used across projects.",
   "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "src/index.ts",
   "scripts": {
     "test": "jest",
     "test:mock": "jest --testNamePattern MockTest",
