@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.4.0](https://github.com/dubbs/shared/compare/v1.3.2...v1.4.0) (2024-09-08)
+
+
+### Features
+
+* add air quality ([37bdfec](https://github.com/dubbs/shared/commit/37bdfec2fe71bb23d81a3ee82b963e5facc85392))
+
+
+### Bug Fixes
+
+* only run mock tests ([396d04a](https://github.com/dubbs/shared/commit/396d04a804c82c20cab62f30d08ded1e7d886d55))
+
 ## [1.3.2](https://github.com/dubbs/shared/compare/v1.3.1...v1.3.2) (2024-09-08)
 
 
