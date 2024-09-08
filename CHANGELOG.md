@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/dubbs/shared/compare/v1.3.0...v1.3.1) (2024-09-08)
+
+
+### Bug Fixes
+
+* types ([3ca0fee](https://github.com/dubbs/shared/commit/3ca0fee6b2aa43aa6d8ffefc179a6549b4f1f521))
+
 ## [1.3.0](https://github.com/dubbs/shared/compare/v1.2.3...v1.3.0) (2024-09-08)
 
 
