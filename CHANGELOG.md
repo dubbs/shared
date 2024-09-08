@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.1.0](https://github.com/dubbs/shared/compare/v1.0.3...v1.1.0) (2024-09-08)
+
+
+### Features
+
+* add movies ([dbead56](https://github.com/dubbs/shared/commit/dbead567eb52aab26d233c03bcb1d913d1a95b66))
+* add tests and docs ([24c52ac](https://github.com/dubbs/shared/commit/24c52ac690601cf3c32b736d201587a549a43005))
+* update movies ([9b5037b](https://github.com/dubbs/shared/commit/9b5037b6bb2334134453a0eccba7311f7db2692f))
+
 ## 1.0.3 (2024-09-02)
 
 
