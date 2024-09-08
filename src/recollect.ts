@@ -11,11 +11,13 @@
  * @async
  * @return {Promise<RecollectItem[]>}
  */
-export const recollect = async (RECOLLECT_URL) => {
-  const response = await fetch(RECOLLECT_URL);
+export const recollect = async (
+  RECOLLECT_URL: string | undefined,
+): Promise<any> => {
+  const response = await fetch(RECOLLECT_URL || "");
   const json = await response.json();
   return json.events
-    .map((x) => {
+    .map((x: any) => {
       if (x.is_approved) {
         const date = new Date(`${x.day}T06:00:00Z`).toISOString();
         return {
@@ -24,5 +26,5 @@ export const recollect = async (RECOLLECT_URL) => {
         };
       }
     })
-    .filter((x) => x);
+    .filter((x: any) => x);
 };

@@ -2,27 +2,23 @@
   "name": "@dubbs/shared",
   "version": "1.1.1",
   "description": "Shared repository for all functions used across projects.",
-  "main": "src/index.js",
-  "scripts": {
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest --testNamePattern MockTest",
-    "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch",
-    "docs": "jsdoc -c jsdoc.conf.json"
-  },
   "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "jest",
+    "test:mock": "jest --testNamePattern MockTest",
+    "test:watch": "jest --watch"
+  },
   "author": "dubbs",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.25.2",
-    "@babel/preset-env": "^7.25.4",
-    "@babel/preset-typescript": "^7.24.7",
     "@types/jest": "^29.5.12",
     "@types/xml2js": "^0.4.14",
-    "babel-jest": "^29.7.0",
-    "docdash": "^2.0.2",
     "jest": "^29.7.0",
-    "jsdoc": "^4.0.3",
     "prettier": "3.3.3",
-    "typescript": "^5.5.3"
+    "ts-jest": "^29.2.5",
+    "typescript": "^5.5.4"
   },
   "dependencies": {
     "dotenv": "^16.4.5",

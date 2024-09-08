@@ -1,4 +1,4 @@
-import { dateFormatIsoShort, dateFormatLong } from "./date.js";
+import { dateFormatIsoShort, dateFormatLong } from "./date";
 
 /**
  * @typedef {Object} Movie
@@ -30,12 +30,10 @@ import { dateFormatIsoShort, dateFormatLong } from "./date.js";
 
 /**
  * Get the screening summary for today by location
- * @async
- * @function
- * @param {boolean} keepAll - Whether to keep all movies.
- * @return {Promise<{location: MovieLocation, movies: MovieScreenings[]}>}
  */
-export const moviesLandmark = async (keepAll = false) => {
+export const moviesLandmark = async (
+  keepAll: boolean = false,
+): Promise<any> => {
   const response = await fetch(
     "https://www.landmarkcinemas.com/showtimes/saskatoon",
   );
@@ -52,8 +50,8 @@ export const moviesLandmark = async (keepAll = false) => {
       name: "Landmark Cinemas",
     },
     movies: json.nowbooking[0]
-      .map((movie) => {
-        const sessionsToday = movie.Sessions.filter((session) => {
+      .map((movie: any) => {
+        const sessionsToday = movie.Sessions.filter((session: any) => {
           const date = new Date(session.Date);
           const today = new Date();
           return (
@@ -66,14 +64,14 @@ export const moviesLandmark = async (keepAll = false) => {
         if (sessionsToday.length > 0) {
           const dateStr = sessionsToday[0].NewDate;
           screeningEvents = sessionsToday[0].ExperienceTypes.map(
-            (experienceType) => {
+            (experienceType: any) => {
               return {
                 videoFormat: experienceType.ExperienceAttributes.map(
-                  (experience) => {
+                  (experience: any) => {
                     return experience.Name;
                   },
                 )
-                  .filter((x) => {
+                  .filter((x: any) => {
                     return (
                       x !== "Reserved Seating" &&
                       x !== "Shout Out" &&
@@ -84,7 +82,7 @@ export const moviesLandmark = async (keepAll = false) => {
                     );
                   })
                   .join(", "),
-                subEvent: experienceType.Times.map((event) => {
+                subEvent: experienceType.Times.map((event: any) => {
                   const parts = event.StartTime.split(" ");
                   let hoursNum = parseInt(parts[0].split(":")[0], 10);
                   if (parts[1] === "PM" && hoursNum < 12) {
@@ -121,7 +119,7 @@ export const moviesLandmark = async (keepAll = false) => {
           screeningEvents: screeningEvents,
         };
       })
-      .filter((movie) => {
+      .filter((movie: any) => {
         return keepAll || movie.screeningEvents.length > 0;
       }),
   };
@@ -132,7 +130,7 @@ export const moviesLandmark = async (keepAll = false) => {
  * @param {number} locationId
  * @return {Promise<{location: MovieLocation, movies: MovieScreenings[]}>}
  */
-export const moviesCineplex = async (locationId) => {
+export const moviesCineplex = async (locationId: any) => {
   const date = dateFormatIsoShort(new Date());
   const response = await fetch(
     `https://apis.cineplex.com/prod/cpx/theatrical/api/v1/showtimes?language=en&locationId=${locationId}&date=${date}`,
@@ -160,7 +158,7 @@ export const moviesCineplex = async (locationId) => {
 
   try {
     const json = await response.json();
-    const movies = json[0].dates[0].movies.map((movie) => {
+    const movies = json[0].dates[0].movies.map((movie: any) => {
       return {
         movie: {
           url: "https://www.cineplex.com/movie/" + movie.filmUrl,
@@ -170,10 +168,10 @@ export const moviesCineplex = async (locationId) => {
           genre: movie.genres.join(", "),
           thumbnailUrl: movie.smallPosterImageUrl,
         },
-        screeningEvents: movie.experiences.map((experience) => {
+        screeningEvents: movie.experiences.map((experience: any) => {
           return {
             videoFormat: experience.experienceTypes[0],
-            subEvent: experience.sessions.map((session) => {
+            subEvent: experience.sessions.map((session: any) => {
               return {
                 startDate: session.showStartDateTimeUtc + "Z",
               };

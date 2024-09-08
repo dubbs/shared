@@ -2,25 +2,25 @@ import puppeteer from "puppeteer";
 import fs from "fs";
 import crypto from "crypto";
 
-/**
- * XboxGameLocal
- * @typedef {Object} XboxGameLocal
- * @property {string} id - The ID.
- * @property {string} img - The image URL.
- * @property {string} releaseDate - The release date.
- * @property {string} title - The title.
- * @property {string} url - The URL.
- */
-
-/**
- * XboxGameRemote
- * @typedef {Object} XboxGameRemote
- * @property {Array.<{UsageData, OriginalReleaseDate}>} MarketProperties - The market properties.
- * @property {Array.<{ProductTitle, ShortDescription, PublisherName}>} LocalizedProperties - The properties.
- * @property {Array.<{ImagePurpose, Uri, Height, Width}>} Images - The images.
- * @property {{Category, XboxConsoleGenCompatible}} Properties - The properties.
- * @property {string} ProductId - The product ID.
- */
+// /**
+//  * XboxGameLocal
+//  * @typedef {Object} XboxGameLocal
+//  * @property {string} id - The ID.
+//  * @property {string} img - The image URL.
+//  * @property {string} releaseDate - The release date.
+//  * @property {string} title - The title.
+//  * @property {string} url - The URL.
+//  */
+//
+// /**
+//  * XboxGameRemote
+//  * @typedef {Object} XboxGameRemote
+//  * @property {Array.<{UsageData, OriginalReleaseDate}>} MarketProperties - The market properties.
+//  * @property {Array.<{ProductTitle, ShortDescription, PublisherName}>} LocalizedProperties - The properties.
+//  * @property {Array.<{ImagePurpose, Uri, Height, Width}>} Images - The images.
+//  * @property {{Category, XboxConsoleGenCompatible}} Properties - The properties.
+//  * @property {string} ProductId - The product ID.
+//  */
 
 /**
  * Delay
@@ -28,7 +28,8 @@ import crypto from "crypto";
  * @param {function} ms - The time to wait
  * @return {Promise<unknown>}
  */
-export const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+export const delay = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
 
 /**
  * Fetch Request
@@ -38,7 +39,10 @@ export const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
  * @param {string} referrer
  * @return {Promise<Response>}
  */
-const fetchRequest = async (url, referrer) => {
+const fetchRequest = async (
+  url: string,
+  referrer: string,
+): Promise<Response> => {
   return await fetch(url, {
     headers: {
       accept: "application/json, text/plain, */*",
@@ -69,7 +73,7 @@ const fetchRequest = async (url, referrer) => {
  * @function
  * @return {Promise<unknown>}
  */
-export const metaCriticGames = async () => {
+export const metaCriticGames = async (): Promise<unknown> => {
   const response = await fetchRequest(
     "https://internal-prod.apigee.fandom.net/v1/xapi/finder/metacritic/web?sortBy=-metaScore&productType=games&gamePlatformIds=1500000129&page=2&releaseYearMin=1958&releaseYearMax=2024&offset=24&limit=24&apiKey=1MOZgmNFxvmljaQR1X9KAij9Mo4xAY3u",
     "https://www.metacritic.com/",
@@ -97,13 +101,13 @@ export const metaCriticGames = async () => {
  * @function
  * @return {Promise<string[]>}
  */
-export const xboxGamePassIds = async () => {
+export const xboxGamePassIds = async (): Promise<string[]> => {
   const response = await fetchRequest(
     "https://catalog.gamepass.com/sigls/v2?id=f6f1f99f-9b49-4ccd-b3bf-4d9767a77f5e&language=en-ca&market=CA",
     "https://www.xbox.com/",
   );
   let json = await response.json();
-  return json.slice(1).map((item) => item.id);
+  return json.slice(1).map((item: any) => item.id);
 };
 
 /**
@@ -112,7 +116,7 @@ export const xboxGamePassIds = async () => {
  * @function
  * @return {Promise<string[]>}
  */
-export const xboxGamePassCatalogUrls = async () => {
+export const xboxGamePassCatalogUrls = async (): Promise<string[]> => {
   const ids = await xboxGamePassIds();
 
   const chunks = [];
@@ -134,8 +138,8 @@ export const xboxGamePassCatalogUrls = async () => {
  * @param {XboxGameRemote} game
  * @return {XboxGameLocal}
  */
-export const xboxGamePassGame = (game) => {
-  const slugify = (str) =>
+export const xboxGamePassGame = (game: any) => {
+  const slugify = (str: string) =>
     str
       .toLowerCase()
       .trim()
@@ -143,7 +147,7 @@ export const xboxGamePassGame = (game) => {
       .replace(/[\s_-]+/g, "-")
       .replace(/^-+|-+$/g, "");
   const [score, scoreCount] = game.MarketProperties[0].UsageData.reduce(
-    (acc, val) => {
+    (acc: any, val: any) => {
       if (val.AggregateTimeSpan === "AllTime") {
         return [val.AverageRating, val.RatingCount];
       }
@@ -165,7 +169,7 @@ export const xboxGamePassGame = (game) => {
     score,
     scoreCount,
     // XblLocalCoop,
-    images: game.LocalizedProperties[0].Images.map((y) => {
+    images: game.LocalizedProperties[0].Images.map((y: any) => {
       if (y.ImagePurpose === "FeaturePromotionalSquareArt") {
         return {
           url: y.Uri,
@@ -173,17 +177,14 @@ export const xboxGamePassGame = (game) => {
           width: y.Width,
         };
       }
-    }).filter((x) => x),
+    }).filter((x: any) => x),
   };
 };
 
 /**
  * Xbox Game Pass Games
- * @async
- * @function
- * @return {Promise<XboxGameLocal[]>}
  */
-export const xboxGamePassGames = async () => {
+export const xboxGamePassGames = async (): Promise<any> => {
   let filenameGames = `./public/xbox-cache/gamepass-all.json`;
   if (fs.existsSync(filenameGames)) {
     return JSON.parse(fs.readFileSync(filenameGames, "utf8"));
@@ -216,11 +217,8 @@ export const xboxGamePassGames = async () => {
 
 /**
  * Xbox Game Pass Games Puppeteer
- * @async
- * @function
- * @return {Promise<XboxGameLocal[]>}
  */
-export const xboxGamePassGamesPuppeteer = async () => {
+export const xboxGamePassGamesPuppeteer = async (): Promise<any> => {
   const browser = await puppeteer.launch({});
   const page = await browser.newPage();
 
@@ -258,7 +256,7 @@ export const xboxGamePassGamesPuppeteer = async () => {
  * @param {string} url - The URL to fetch
  * @return {Promise<string>}
  */
-export const puppeteerGetHtml = async (url) => {
+export const puppeteerGetHtml = async (url: string): Promise<string> => {
   const browser = await puppeteer.launch({});
   const page = await browser.newPage();
   await page.setViewport({ width: 1920, height: 1080 });

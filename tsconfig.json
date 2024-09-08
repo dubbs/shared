@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "declaration": true,
+    "outDir": "./dist",
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node", // Use Node.js module resolution
+    "esModuleInterop": true,    // Allows interoperability between CommonJS and ES modules
+    "resolveJsonModule": true,  // Allow importing JSON files
+    "isolatedModules": true,    // Ensures TypeScript files can be transpiled in isolation
+    "noEmitOnError": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "**/*.test.ts"]
+}

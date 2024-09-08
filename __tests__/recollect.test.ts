@@ -1,5 +1,5 @@
 import { expect, test, jest } from "@jest/globals";
-import { recollect } from "./recollect";
+import { recollect } from "../src";
 
 test("should have api available (NetworkTest)", async () => {
   const data = await recollect(process.env.RECOLLECT_URL);
@@ -9,7 +9,7 @@ test("should have api available (NetworkTest)", async () => {
 });
 
 test("should map response (MockTest)", async () => {
-  global.fetch = jest.fn().mockResolvedValue({
+  global.fetch = jest.fn<typeof global.fetch>().mockResolvedValue({
     ok: true,
     json: () =>
       Promise.resolve({
@@ -36,7 +36,7 @@ test("should map response (MockTest)", async () => {
           },
         ],
       }),
-  });
+  } as Response);
   const data = await recollect(process.env.RECOLLECT_URL);
   expect(data[0].type).toBe("Garbage");
   expect(data[0].date).toBe("2024-04-05T06:00:00.000Z");

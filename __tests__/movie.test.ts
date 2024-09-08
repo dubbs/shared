@@ -1,5 +1,5 @@
 import { expect, test, jest } from "@jest/globals";
-import { moviesLandmark } from "./movie.js";
+import { moviesLandmark } from "../src";
 
 test("should have api available (NetworkTest)", async () => {
   const summary = await moviesLandmark(true);
@@ -12,7 +12,7 @@ test("should have api available (NetworkTest)", async () => {
 });
 
 test("should map response (MockTest)", async () => {
-  global.fetch = jest.fn().mockResolvedValue({
+  global.fetch = jest.fn<typeof global.fetch>().mockResolvedValue({
     ok: true,
     text: () =>
       Promise.resolve(`
@@ -28,7 +28,7 @@ test("should map response (MockTest)", async () => {
     };
 </script>
         `),
-  });
+  } as Response);
   const summary = await moviesLandmark(true);
   expect(summary.movies).toHaveLength(9);
 

@@ -1,5 +1,5 @@
-import { expect, test, jest } from "@jest/globals";
-import { xboxGamePassCatalogUrls } from "./helpers";
+import { expect, test } from "@jest/globals";
+import { xboxGamePassCatalogUrls } from "../src";
 
 test("should have api available (NetworkTest)", async () => {
   const data = await xboxGamePassCatalogUrls();
