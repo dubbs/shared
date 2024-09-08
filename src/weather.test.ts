@@ -1,5 +1,5 @@
 import { expect, test } from "@jest/globals";
-import { weather as getWeather } from "./weather";
+import { weather as getWeather, weatherAirQuality } from "./weather";
 
 test("should have api available (NetworkTest)", async () => {
   const weather = await getWeather();
@@ -847,4 +847,119 @@ test("should map response (MockTest)", async () => {
   expect(weather.forecastHourly[0].condition).toBe("Partly cloudy");
   expect(weather.sunrise).toBe("5:41 a.m.");
   expect(weather.sunset).toBe("8:28 p.m.");
+});
+
+test("should map air quality (MockTest)", async () => {
+  global.fetch = jest
+    .fn()
+    .mockResolvedValueOnce({
+      ok: true,
+      text: () =>
+        Promise.resolve(`
+    <conditionAirQuality productHeader="AQ_OBS">
+<region nameEn="Saskatoon" nameFr="Saskatoon">HAHJJ</region>
+<dateStamp name="aqObserved" zoneEn="CST" zoneFr="HNC">
+<year>2024</year>
+<month nameEn="September" nameFr="septembre">9</month>
+<day nameEn="Sunday" nameFr="dimanche"> 8</day>
+<hour clock="12h" ampm="PM">12</hour>
+<minute>00</minute>
+<second/>
+<UTCStamp>20240908180000</UTCStamp>
+<textSummary lang="EN">12:00 PM CST Sunday 8 September 2024</textSummary>
+<textSummary lang="FR">12h00 HNC dimanche 8 septembre 2024</textSummary>
+</dateStamp>
+<airQualityHealthIndex>5.0</airQualityHealthIndex>
+<specialNotes/>
+</conditionAirQuality>`),
+    })
+    .mockResolvedValueOnce({
+      ok: true,
+      text: () =>
+        Promise.resolve(`<forecastAirQuality productHeader="AQ_FCST" status="issued">
+<region nameEn="Saskatoon" nameFr="Saskatoon">HAHJJ</region>
+<dateStamp name="aqForecastIssued" zoneEn="CST" zoneFr="HNC">
+<year>2024</year>
+<month nameEn="September" nameFr="septembre">9</month>
+<day nameEn="Sunday" nameFr="dimanche">8</day>
+<hour clock="12h" ampm="AM">6</hour>
+<minute>0</minute>
+<second/>
+<UTCStamp>20240908120000</UTCStamp>
+<textSummary lang="EN">6:00 AM CST Sunday 8 September 2024</textSummary>
+<textSummary lang="FR">6h00 HNC dimanche 8 septembre 2024</textSummary>
+</dateStamp>
+<nextIssue>
+<UTCStamp>202409082300</UTCStamp>
+</nextIssue>
+<warningGroup> </warningGroup>
+<forecastGroup>
+<forecast periodID="1">
+<period forecastName="Today" lang="EN">Sunday</period>
+<period forecastName="Aujourd'hui" lang="FR">dimanche</period>
+<airQualityHealthIndex>4</airQualityHealthIndex>
+</forecast>
+<forecast periodID="2">
+<period forecastName="Tonight" lang="EN">Sunday night</period>
+<period forecastName="Ce soir et cette nuit" lang="FR">dimanche soir et nuit</period>
+<airQualityHealthIndex>4</airQualityHealthIndex>
+</forecast>
+<forecast periodID="3">
+<period forecastName="Tomorrow" lang="EN">Monday</period>
+<period forecastName="Demain" lang="FR">lundi</period>
+<airQualityHealthIndex>5</airQualityHealthIndex>
+</forecast>
+<forecast periodID="4">
+<period forecastName="Tomorrow Night" lang="EN">Monday night</period>
+<period forecastName="Demain soir et nuit" lang="FR">lundi soir et nuit</period>
+<airQualityHealthIndex>5</airQualityHealthIndex>
+</forecast>
+</forecastGroup>
+<hourlyForecastGroup>
+<hourlyForecast UTCTime="20240908120000">2</hourlyForecast>
+<hourlyForecast UTCTime="20240908130000">2</hourlyForecast>
+<hourlyForecast UTCTime="20240908140000">2</hourlyForecast>
+<hourlyForecast UTCTime="20240908150000">2</hourlyForecast>
+<hourlyForecast UTCTime="20240908160000">2</hourlyForecast>
+<hourlyForecast UTCTime="20240908170000">2</hourlyForecast>
+<hourlyForecast UTCTime="20240908180000">2</hourlyForecast>
+<hourlyForecast UTCTime="20240908190000">3</hourlyForecast>
+<hourlyForecast UTCTime="20240908200000">3</hourlyForecast>
+<hourlyForecast UTCTime="20240908210000">3</hourlyForecast>
+<hourlyForecast UTCTime="20240908220000">3</hourlyForecast>
+<hourlyForecast UTCTime="20240908230000">3</hourlyForecast>
+<hourlyForecast UTCTime="20240909000000">4</hourlyForecast>
+<hourlyForecast UTCTime="20240909010000">3</hourlyForecast>
+<hourlyForecast UTCTime="20240909020000">3</hourlyForecast>
+<hourlyForecast UTCTime="20240909030000">3</hourlyForecast>
+<hourlyForecast UTCTime="20240909040000">3</hourlyForecast>
+<hourlyForecast UTCTime="20240909050000">3</hourlyForecast>
+<hourlyForecast UTCTime="20240909060000">2</hourlyForecast>
+<hourlyForecast UTCTime="20240909070000">2</hourlyForecast>
+<hourlyForecast UTCTime="20240909080000">2</hourlyForecast>
+<hourlyForecast UTCTime="20240909090000">2</hourlyForecast>
+<hourlyForecast UTCTime="20240909100000">2</hourlyForecast>
+<hourlyForecast UTCTime="20240909110000">2</hourlyForecast>
+<hourlyForecast UTCTime="20240909120000">3</hourlyForecast>
+<hourlyForecast UTCTime="20240909130000">3</hourlyForecast>
+<hourlyForecast UTCTime="20240909140000">3</hourlyForecast>
+<hourlyForecast UTCTime="20240909150000">3</hourlyForecast>
+<hourlyForecast UTCTime="20240909160000">3</hourlyForecast>
+<hourlyForecast UTCTime="20240909170000">3</hourlyForecast>
+<hourlyForecast UTCTime="20240909180000">3</hourlyForecast>
+<hourlyForecast UTCTime="20240909190000">3</hourlyForecast>
+<hourlyForecast UTCTime="20240909200000">3</hourlyForecast>
+<hourlyForecast UTCTime="20240909210000">4</hourlyForecast>
+<hourlyForecast UTCTime="20240909220000">4</hourlyForecast>
+<hourlyForecast UTCTime="20240909230000">4</hourlyForecast>
+<hourlyForecast UTCTime="20240910000000">5</hourlyForecast>
+</hourlyForecastGroup>
+</forecastAirQuality>`),
+    });
+
+  const result = await weatherAirQuality();
+  expect(result[0].healthIndex).toBe(5.0);
+  expect(result[0].title).toBe("Current");
+  expect(result[1].healthIndex).toBe(4.0);
+  expect(result[1].title).toBe("Sunday");
 });

@@ -1,6 +1,9 @@
-import { xmlStrToJson, xmlUrlToJson } from "./xml";
-import { dateFormatTime } from "./date";
-import { fetchText } from "./fetch";
+import { xmlUrlToJson, dateFormatTime } from "./index";
+
+export type WeatherAirQuality = {
+  title: string;
+  healthIndex: number;
+};
 
 export const weather = async () => {
   const dateObjectToDateTime = (obj) => {
@@ -73,4 +76,44 @@ export const weather = async () => {
     sunrise,
     sunset,
   };
+};
+
+/**
+ * Get air quality forecast
+ * @see https://dd.weather.gc.ca/air_quality/doc/
+ */
+export const weatherAirQuality = async (): Promise<WeatherAirQuality[]> => {
+  const observation = (await xmlUrlToJson(
+    "http://dd.weather.gc.ca/air_quality/aqhi/pnr/observation/realtime/xml/AQ_OBS_HAHJJ_CURRENT.xml",
+  )) as {
+    conditionAirQuality: {
+      airQualityHealthIndex: string[];
+    };
+  };
+  const forecast = (await xmlUrlToJson(
+    "http://dd.weather.gc.ca/air_quality/aqhi/pnr/forecast/realtime/xml/AQ_FCST_HAHJJ_CURRENT.xml",
+  )) as {
+    forecastAirQuality: {
+      forecastGroup: {
+        forecast: {
+          period: { _: string }[];
+          airQualityHealthIndex: string[];
+        }[];
+      }[];
+    };
+  };
+  return [
+    {
+      title: "Current",
+      healthIndex: parseFloat(
+        observation.conditionAirQuality.airQualityHealthIndex[0],
+      ),
+    },
+    ...forecast.forecastAirQuality.forecastGroup[0].forecast.map((x) => {
+      return {
+        title: x.period[0]._,
+        healthIndex: parseFloat(x.airQualityHealthIndex[0]),
+      };
+    }),
+  ];
 };
