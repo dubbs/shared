@@ -1,5 +1,6 @@
 import xml2js from "xml2js";
 import { v4 as uuidv4 } from "uuid";
+import { fetchText } from "./fetch";
 
 export type RssItem = {
   id: number;
@@ -21,14 +22,7 @@ export const xmlStrToJson = async (str: string) => {
 };
 
 export const xmlUrlToJson = async (url: string) => {
-  const response = await fetch(url, {
-    headers: {
-      // Some RSS feeds return 403 when missing UserAgent
-      "User-Agent":
-        "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36",
-    },
-  });
-  let text = await response.text();
+  const text = await fetchText(url);
   return xmlStrToJson(text);
 };
 

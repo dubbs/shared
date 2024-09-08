@@ -7,6 +7,7 @@ export * from "./weather";
 export * from "./holidays";
 export * from "./events";
 export * from "./ticketmaster";
+export * from "./fetch";
 
 export * from "./wcbl";
 export * from "./rattlers";

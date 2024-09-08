@@ -1,6 +1,7 @@
 import puppeteer from "puppeteer";
 import fs from "fs";
 import crypto from "crypto";
+import { fetchJson } from "./fetch";
 
 /**
  * Delay
@@ -9,60 +10,17 @@ export const delay = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
 /**
- * Fetch Request
- * @async
- * @function
- * @param {string} url
- * @param {string} referrer
- * @return {Promise<Response>}
- */
-const fetchRequest = async (
-  url: string,
-  referrer: string,
-): Promise<Response> => {
-  return await fetch(url, {
-    headers: {
-      accept: "application/json, text/plain, */*",
-      "accept-language": "en-US,en;q=0.9",
-      priority: "u=1, i",
-      "sec-ch-ua":
-        '"Not/A)Brand";v="8", "Chromium";v="126", "Google Chrome";v="126"',
-      "sec-ch-ua-mobile": "?0",
-      "sec-ch-ua-platform": '"macOS"',
-      "sec-fetch-dest": "empty",
-      "sec-fetch-mode": "cors",
-      "sec-fetch-site": "cross-site",
-      "user-agent":
-        "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36",
-    },
-    referrer: referrer,
-    referrerPolicy: "strict-origin-when-cross-origin",
-    body: null,
-    method: "GET",
-    mode: "cors",
-    credentials: "same-origin",
-  });
-};
-
-/**
  * Meta Critic Games
  */
 export const metaCriticGames = async (): Promise<unknown> => {
-  const response = await fetchRequest(
+  let json = await fetchJson(
     "https://internal-prod.apigee.fandom.net/v1/xapi/finder/metacritic/web?sortBy=-metaScore&productType=games&gamePlatformIds=1500000129&page=2&releaseYearMin=1958&releaseYearMax=2024&offset=24&limit=24&apiKey=1MOZgmNFxvmljaQR1X9KAij9Mo4xAY3u",
-    "https://www.metacritic.com/",
   );
-
-  let json = await response.json();
 
   let items = [...json.data.items];
 
   while (json.links.next?.href) {
-    const response = await fetchRequest(
-      json.links.next.href,
-      "https://www.metacritic.com/",
-    );
-    json = await response.json();
+    json = await fetchJson(json.links.next.href);
     items = items.concat(json.data.items);
   }
 
@@ -73,11 +31,9 @@ export const metaCriticGames = async (): Promise<unknown> => {
  * Get a list of Xbox gamepass ids
  */
 export const xboxGamePassIds = async (): Promise<string[]> => {
-  const response = await fetchRequest(
+  let json = await fetchJson(
     "https://catalog.gamepass.com/sigls/v2?id=f6f1f99f-9b49-4ccd-b3bf-4d9767a77f5e&language=en-ca&market=CA",
-    "https://www.xbox.com/",
   );
-  let json = await response.json();
   return json.slice(1).map((item: any) => item.id);
 };
 
@@ -87,7 +43,7 @@ export const xboxGamePassIds = async (): Promise<string[]> => {
 export const xboxGamePassCatalogUrls = async (): Promise<string[]> => {
   const ids = await xboxGamePassIds();
 
-  const chunks = [];
+  const chunks: string[][] = [];
   while (ids.length) {
     chunks.push(ids.splice(0, 20));
   }
@@ -155,18 +111,17 @@ export const xboxGamePassGames = async (): Promise<any> => {
     return JSON.parse(fs.readFileSync(filenameGames, "utf8"));
   }
 
-  let games = [];
+  let games: any[] = [];
   const urls = await xboxGamePassCatalogUrls();
   for (let url of urls) {
     const slug = url.replaceAll(/[:/.,=&-?]/gi, "_");
     const hash = crypto.createHash("md5").update(slug).digest("hex");
     const filename = `./public/xbox-cache/gamepass-${hash}.json`;
-    let data = null;
+    let data: any = null;
     if (fs.existsSync(filename)) {
       data = JSON.parse(fs.readFileSync(filename, "utf8"));
     } else {
-      const response = await fetchRequest(url, "https://www.xbox.com/");
-      data = await response.json();
+      data = await fetchJson(url);
       fs.writeFileSync(filename, JSON.stringify(data));
     }
 

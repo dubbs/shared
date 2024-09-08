@@ -1,5 +1,6 @@
-import { xmlStrToJson } from "./xml";
+import { xmlStrToJson, xmlUrlToJson } from "./xml";
 import { dateFormatTime } from "./date";
+import { fetchText } from "./fetch";
 
 export const weather = async () => {
   const dateObjectToDateTime = (obj) => {
@@ -24,13 +25,9 @@ export const weather = async () => {
     return new Date(currentDateTimeStringParsed);
   };
 
-  const response = await fetch(
+  const result = await xmlUrlToJson(
     "https://dd.weather.gc.ca/citypage_weather/xml/SK/s0000797_e.xml",
   );
-
-  const text = await response.text();
-
-  const result = await xmlStrToJson(text);
 
   const sunriseAndSunsetSrc = result.siteData.riseSet[0].dateTime;
 

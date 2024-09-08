@@ -1,3 +1,5 @@
+import { fetchJson } from "./fetch";
+
 export type RecollectItem = {
   date: string;
   type: string;
@@ -10,8 +12,7 @@ export type RecollectItem = {
 export const recollect = async (
   RECOLLECT_URL: string | undefined,
 ): Promise<RecollectItem[]> => {
-  const response = await fetch(RECOLLECT_URL || "");
-  const json = await response.json();
+  const json = await fetchJson(RECOLLECT_URL || "");
   return json.events
     .map((x: any) => {
       if (x.is_approved) {
