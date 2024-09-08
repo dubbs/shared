@@ -2,31 +2,8 @@ import puppeteer from "puppeteer";
 import fs from "fs";
 import crypto from "crypto";
 
-// /**
-//  * XboxGameLocal
-//  * @typedef {Object} XboxGameLocal
-//  * @property {string} id - The ID.
-//  * @property {string} img - The image URL.
-//  * @property {string} releaseDate - The release date.
-//  * @property {string} title - The title.
-//  * @property {string} url - The URL.
-//  */
-//
-// /**
-//  * XboxGameRemote
-//  * @typedef {Object} XboxGameRemote
-//  * @property {Array.<{UsageData, OriginalReleaseDate}>} MarketProperties - The market properties.
-//  * @property {Array.<{ProductTitle, ShortDescription, PublisherName}>} LocalizedProperties - The properties.
-//  * @property {Array.<{ImagePurpose, Uri, Height, Width}>} Images - The images.
-//  * @property {{Category, XboxConsoleGenCompatible}} Properties - The properties.
-//  * @property {string} ProductId - The product ID.
-//  */
-
 /**
  * Delay
- * @function
- * @param {function} ms - The time to wait
- * @return {Promise<unknown>}
  */
 export const delay = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));
@@ -69,9 +46,6 @@ const fetchRequest = async (
 
 /**
  * Meta Critic Games
- * @async
- * @function
- * @return {Promise<unknown>}
  */
 export const metaCriticGames = async (): Promise<unknown> => {
   const response = await fetchRequest(
@@ -97,9 +71,6 @@ export const metaCriticGames = async (): Promise<unknown> => {
 
 /**
  * Get a list of Xbox gamepass ids
- * @async
- * @function
- * @return {Promise<string[]>}
  */
 export const xboxGamePassIds = async (): Promise<string[]> => {
   const response = await fetchRequest(
@@ -112,9 +83,6 @@ export const xboxGamePassIds = async (): Promise<string[]> => {
 
 /**
  * Gamepass Catalog Urls
- * @async
- * @function
- * @return {Promise<string[]>}
  */
 export const xboxGamePassCatalogUrls = async (): Promise<string[]> => {
   const ids = await xboxGamePassIds();
@@ -134,9 +102,6 @@ export const xboxGamePassCatalogUrls = async (): Promise<string[]> => {
 
 /**
  * Xbox Game Pass Game
- * @function
- * @param {XboxGameRemote} game
- * @return {XboxGameLocal}
  */
 export const xboxGamePassGame = (game: any) => {
   const slugify = (str: string) =>
@@ -252,9 +217,7 @@ export const xboxGamePassGamesPuppeteer = async (): Promise<any> => {
 };
 
 /**
- *
- * @param {string} url - The URL to fetch
- * @return {Promise<string>}
+ * Puppeteer Get Html
  */
 export const puppeteerGetHtml = async (url: string): Promise<string> => {
   const browser = await puppeteer.launch({});
