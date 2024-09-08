@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/dubbs/shared/compare/v1.1.1...v1.2.0) (2024-09-08)
+
+
+### Features
+
+* move to typescript ([3b6a4fc](https://github.com/dubbs/shared/commit/3b6a4fc242412b3452e8565d1d396d83a1817672))
+
 ## [1.1.1](https://github.com/dubbs/shared/compare/v1.1.0...v1.1.1) (2024-09-08)
 
 
