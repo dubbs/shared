@@ -3,3 +3,18 @@ export * from "./date";
 export * from "./xml";
 export * from "./recollect";
 export * from "./movie";
+export * from "./weather";
+export * from "./holidays";
+export * from "./events";
+
+export * from "./wcbl";
+export * from "./rattlers";
+export * from "./cfl-football-riders";
+export * from "./usports-hockey-huskies-men";
+export * from "./pjhl-hockey-westleys";
+export * from "./smaaahl-hockey-contacts";
+export * from "./sjhl-hockey-league";
+export * from "./ashl-hockey";
+export * from "./espn";
+export * from "./chl";
+export * from "./iihf";

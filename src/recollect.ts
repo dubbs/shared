@@ -1,19 +1,15 @@
-/**
- * An event from Recollect.
- * @typedef {Object} RecollectItem
- * @property {string} date - A date string.
- * @property {string} type - A string.
- */
+export type RecollectItem = {
+  date: string;
+  type: string;
+};
 
 /**
- * Fetches events from the Recollect API.
- * @function
- * @async
- * @return {Promise<RecollectItem[]>}
+ * Recollect
+ * @param RECOLLECT_URL
  */
 export const recollect = async (
   RECOLLECT_URL: string | undefined,
-): Promise<any> => {
+): Promise<RecollectItem[]> => {
   const response = await fetch(RECOLLECT_URL || "");
   const json = await response.json();
   return json.events
