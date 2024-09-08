@@ -1,9 +1,3 @@
-if (!process.env.RECOLLECT_URL) {
-  throw new Error("RECOLLECT_URL is not defined in environment variables");
-}
-
-const RECOLLECT_URL = process.env.RECOLLECT_URL;
-
 /**
  * An event from Recollect.
  * @typedef {Object} RecollectItem
@@ -17,7 +11,7 @@ const RECOLLECT_URL = process.env.RECOLLECT_URL;
  * @async
  * @return {Promise<RecollectItem[]>}
  */
-export const recollect = async () => {
+export const recollect = async (RECOLLECT_URL) => {
   const response = await fetch(RECOLLECT_URL);
   const json = await response.json();
   return json.events
