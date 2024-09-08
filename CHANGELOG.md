@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.2](https://github.com/dubbs/shared/compare/v1.2.1...v1.2.2) (2024-09-08)
+
+
+### Bug Fixes
+
+* js extension ([bde7a8d](https://github.com/dubbs/shared/commit/bde7a8d892d9eb98e348e716da6e718e7baacc85))
+
 ## [1.2.1](https://github.com/dubbs/shared/compare/v1.2.0...v1.2.1) (2024-09-08)
 
 
