@@ -16,20 +16,20 @@ export const holidays = async () => {
   const document = dom.window.document;
   const tables = document.querySelectorAll("table");
   tables.forEach((table) => {
-    const tbody = table.querySelector("tbody");
+    const tbody = table.querySelector("tbody") as HTMLTableSectionElement;
     const rows = tbody.querySelectorAll("tr");
     rows.forEach((row) => {
       let item = {} as Holiday;
       const columns = row.querySelectorAll("th, td");
       columns.forEach((column, index) => {
         if (index === 0) {
-          item.date = column.textContent.trim();
+          item.date = column.textContent?.trim() || "";
         } else if (index === 1) {
           // item.day = column.textContent.trim();
         } else if (index === 2) {
-          item.holiday = column.textContent.trim();
+          item.holiday = column.textContent?.trim() || "";
         } else if (index === 3) {
-          item.type = column.textContent.trim();
+          item.type = column.textContent?.trim() || "";
         } else if (index === 4) {
           // item.details = column.textContent.trim();
         }

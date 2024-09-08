@@ -1,5 +1,5 @@
 import type { SportsEvent } from "./schema";
-import { getDocument } from "./jsdom.ts";
+import { getDocument } from "./jsdom";
 
 export const getWCBL = async (): Promise<SportsEvent[]> => {
   const document = await getDocument(
@@ -9,7 +9,7 @@ export const getWCBL = async (): Promise<SportsEvent[]> => {
   const tbody = table?.querySelector("tbody");
   const rows = tbody?.querySelectorAll("tr");
 
-  const data = [];
+  const data: SportsEvent[] = [];
   rows?.forEach((row) => {
     let startDate = "";
     let awayTeamName = "";
@@ -29,7 +29,7 @@ export const getWCBL = async (): Promise<SportsEvent[]> => {
         ).toISOString();
       }
       if (index == 2) {
-        awayTeamName = column.textContent;
+        awayTeamName = column.textContent || "";
         let teamid = column
           .querySelector("a")
           ?.getAttribute("href")
@@ -39,7 +39,7 @@ export const getWCBL = async (): Promise<SportsEvent[]> => {
         awayTeamLogo = `https://baseball.pointstreak.com/logos/league154/team${teamid}.gif`;
       }
       if (index == 3) {
-        homeTeamName = column.textContent;
+        homeTeamName = column.textContent || "";
         let teamid = column
           .querySelector("a")
           ?.getAttribute("href")
@@ -48,17 +48,21 @@ export const getWCBL = async (): Promise<SportsEvent[]> => {
         teamid = teamid == "155849" ? "163396" : teamid;
         homeTeamLogo = `https://baseball.pointstreak.com/logos/league154/team${teamid}.gif`;
       }
-      if (index == 4 && column.textContent.includes("-")) {
+      if (index == 4 && column.textContent?.includes("-")) {
         const parts = column.textContent.split("-");
         awayScore = parseInt(parts[0]);
         homeScore = parseInt(parts[1]);
       }
       if (index == 7) {
-        locationDescription = column.textContent;
+        locationDescription = column.textContent || "";
       }
     });
     data.push({
       startDate,
+      audience: {
+        audienceType: "",
+      },
+      description: "",
       sport: "WCBL",
       awayTeam: {
         name: awayTeamName,
@@ -70,10 +74,12 @@ export const getWCBL = async (): Promise<SportsEvent[]> => {
       },
       location: {
         description: locationDescription,
+        addressRegion: "",
+        addressLocality: "",
       },
       awayScore,
       homeScore,
-    } as SportsEvent);
+    });
   });
 
   return data;

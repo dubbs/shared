@@ -14,7 +14,7 @@ export const getCHL = async (url: string) => {
   const html = await response.text();
   const matches = html.matchAll(/data\: (\[\[[\S\s]+?\]\])/gi);
   const today = dateFormatIsoShort(new Date());
-  const events = [];
+  const events: SportsEvent[] = [];
   for (const match of matches) {
     const json = JSON.parse(match[1]);
     for (const event of json) {
@@ -31,6 +31,9 @@ export const getCHL = async (url: string) => {
 
       events.push({
         startDate: String(event[1][0] + "T06:00:00Z"),
+        audience: {
+          audienceType: "",
+        },
         sport: "WHL",
         awayTeam: {
           name: event[2][1],
@@ -50,7 +53,7 @@ export const getCHL = async (url: string) => {
         awayScore: awayScore,
         homeScore: homeScore,
         description: description,
-      } as SportsEvent);
+      });
     }
   }
   return events;

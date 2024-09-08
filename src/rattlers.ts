@@ -8,7 +8,7 @@ import type { SportsEvent } from "./schema";
 
 export const getRattlers = async () => {
   // const limit = 500
-  const events = [];
+  const events: SportsEvent[] = [];
   const limit = 20;
   const response = await fetch(
     `https://api.wh.geniussports.com/v1/basketball/competitions/37308/matcheslive?ak=2e8d9bf868121a7b9f1c4f83260dcfab&limit=${limit}`,
@@ -30,13 +30,18 @@ export const getRattlers = async () => {
       },
       location: {
         description: event.venue.venueName,
+        addressLocality: "",
+        addressRegion: "",
         //   addressLocality: event[9].split("-")[1].trim(),
         //   addressRegion: "",
       },
       awayScore: event.competitors[1].scoreString || "-",
       homeScore: event.competitors[0].scoreString || "-",
       description: event.matchStatus,
-    } as SportsEvent);
+      audience: {
+        audienceType: "",
+      },
+    });
   }
   return events;
 };

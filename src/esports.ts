@@ -1,5 +1,5 @@
 import type { SportsEvent } from "./schema";
-import { xmlStrToJson } from "./xml.ts";
+import { xmlStrToJson } from "./xml";
 
 export const esportsdeskjson = async (
   domain: string,

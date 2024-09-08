@@ -1,4 +1,4 @@
-import { xmlUrlToJson } from "./xml.js";
+import { xmlUrlToJson } from "./xml";
 import type { SportsEvent } from "./schema";
 
 const Games = async () => {

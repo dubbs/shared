@@ -1,5 +1,5 @@
 import type { SportsEvent } from "./schema";
-import { esportsdeskjson } from "./esports.ts";
+import { esportsdeskjson } from "./esports";
 
 const Games = async (): Promise<SportsEvent[]> => {
   const json = await esportsdeskjson("https://www.pjhl.ca", "2197", "5172");
@@ -17,7 +17,7 @@ const Games = async (): Promise<SportsEvent[]> => {
     return "???? " + location;
   };
 
-  const parseDescription = (description: string | object) => {
+  const parseDescription = (description: any) => {
     if (typeof description === "object") {
       if (description.a[0].span) {
         return description.a[0].span[0];
@@ -60,7 +60,7 @@ const Games = async (): Promise<SportsEvent[]> => {
     }
   };
 
-  const games = json.table.tbody[0].tr
+  const games = (json as any).table.tbody[0].tr
     .map((obj: any) => {
       if (!obj.td[1]) {
         return null;

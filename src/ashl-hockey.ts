@@ -112,8 +112,12 @@ export const getGames = async (
   return games;
 };
 
-export const getStats = async (page: number) => {
-  const access_token = await getToken();
+export const getStats = async (
+  CANLAN_USER: string,
+  CANLAN_PASS: string,
+  page: number,
+) => {
+  const access_token = await getToken(CANLAN_USER, CANLAN_PASS);
   const response = await fetch(
     `https://canlan2-api.sportninja.net/v1/schedules/iZHonKfIsB2RGCRC/stats/players?page=${page}&sortBy=P&sort=desc&goalie=0`,
     {
@@ -142,14 +146,14 @@ export const getStats = async (page: number) => {
   fs.writeFileSync(`stats/${page}.json`, JSON.stringify(json));
 };
 
-export const getStatsAll = async () => {
+export const getStatsAll = async (CANLAN_USER: string, CANLAN_PASS: string) => {
   for (let i = 1; i <= 57; i++) {
-    await getStats(i);
+    await getStats(CANLAN_USER, CANLAN_PASS, i);
   }
 };
 
 export const processStats = async () => {
-  const stats = [];
+  const stats: any[] = [];
   for (let i = 1; i <= 57; i++) {
     const str = fs.readFileSync(`stats/${i}.json`, "utf8");
     const json = JSON.parse(str);

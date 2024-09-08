@@ -1,5 +1,5 @@
 import type { SportsEvent } from "./schema";
-import { esportsdeskjson } from "./esports.ts";
+import { esportsdeskjson } from "./esports";
 
 // Saskatchewan Male AAA Hockey League U18
 
@@ -19,7 +19,7 @@ const Games = async (): Promise<SportsEvent[]> => {
     return "???";
   };
 
-  const parseDescription = (description: string | object) => {
+  const parseDescription = (description: any) => {
     if (typeof description === "object") {
       if (description.a[0].span) {
         return description.a[0].span[0];
@@ -64,7 +64,7 @@ const Games = async (): Promise<SportsEvent[]> => {
     }
   };
 
-  const games = json.table.tbody[0].tr
+  const games = (json as any).table.tbody[0].tr
     .map((obj: any) => {
       // date is in this format: Feb. 18, 2024 @ 7:45 PM
       if (!obj.td[1]) {

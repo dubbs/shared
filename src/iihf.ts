@@ -1,5 +1,5 @@
 import type { SportsEvent } from "./schema";
-import { getDocument } from "./jsdom.ts";
+import { getDocument } from "./jsdom";
 
 export const getIIHF = async () => {
   const document = await getDocument(
@@ -7,7 +7,7 @@ export const getIIHF = async () => {
   );
   const cards = [...document.querySelectorAll(".b-card-schedule")];
 
-  let events = [];
+  let events: SportsEvent[] = [];
   for (const card of cards) {
     const dateString = card.querySelector(".s-date")?.getAttribute("data-time");
     const startDate = dateString ? new Date(dateString).toISOString() : null;
@@ -40,7 +40,7 @@ export const getIIHF = async () => {
       audience: {
         audienceType: "",
       },
-      startDate: startDate,
+      startDate: startDate || "",
       sport: "IIHF",
       awayTeam: {
         name: awayTeamName,
@@ -58,7 +58,7 @@ export const getIIHF = async () => {
       awayScore,
       homeScore,
       description,
-    } as SportsEvent);
+    });
   }
 
   return events;
