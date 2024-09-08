@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/dubbs/shared/compare/v1.1.0...v1.1.1) (2024-09-08)
+
+
+### Bug Fixes
+
+* move recollect to variable ([ee6044c](https://github.com/dubbs/shared/commit/ee6044cf2967ec8c57f1e0e8d6c455f62b446649))
+
 ## [1.1.0](https://github.com/dubbs/shared/compare/v1.0.3...v1.1.0) (2024-09-08)
 
 
