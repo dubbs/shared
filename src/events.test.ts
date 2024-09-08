@@ -1,5 +1,5 @@
 import { expect, test } from "@jest/globals";
-import { getEvents } from "./events";
+import { getEvents } from "../src";
 
 test("should have api available (NetworkTest)", async () => {
   const events = await getEvents();

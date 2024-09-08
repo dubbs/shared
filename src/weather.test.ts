@@ -1,8 +1,8 @@
 import { expect, test } from "@jest/globals";
-import { weather } from "./weather";
+import { weather as getWeather } from "./weather";
 
 test("should have api available (NetworkTest)", async () => {
-  const weather = await weather();
+  const weather = await getWeather();
   expect(weather).toHaveProperty("currentDateTimeFormatted");
   expect(weather).toHaveProperty("currentCondition");
   expect(weather).toHaveProperty("currentTemp");
@@ -834,7 +834,7 @@ test("should map response (MockTest)", async () => {
 </siteData>
         `),
   });
-  const weather = await weather();
+  const weather = await getWeather();
   expect(weather.currentDateTimeFormatted).toBe("9:00 p.m.");
   expect(weather.currentCondition).toBe("Mostly Cloudy");
   expect(weather.currentTemp).toBe("10.2");

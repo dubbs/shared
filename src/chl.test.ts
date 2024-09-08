@@ -132,12 +132,12 @@ data: [["",["2024-03-28","Thu, Mar 28"],["https:\\/\\/assets.leaguestat.com\\/wh
   expect(blades[blades.length - 4].homeTeam.logo).toBe(
     "https://assets.leaguestat.com/whl/logos/207.png",
   );
-  expect(blades[blades.length - 4].homeScore).toBe(" ");
+  expect(blades[blades.length - 4].homeScore).toBe("4");
   expect(blades[blades.length - 4].location.description).toBe(
     "Moose Jaw Events Centre",
   );
   expect(blades[blades.length - 4].location.addressLocality).toBe(
     "Moose Jaw, SK",
   );
-  expect(blades[blades.length - 4].description).toBe("12:46 2nd");
+  expect(blades[blades.length - 4].description).toBe("Final OT");
 });

@@ -1,5 +1,5 @@
 import { expect, test } from "@jest/globals";
-import { getHolidays } from "./holidays";
+import { holidays as getHolidays } from "./holidays";
 
 test("should have api available (NetworkTest)", async () => {
   const holidays = await getHolidays();

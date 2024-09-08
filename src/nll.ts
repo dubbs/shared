@@ -11,8 +11,8 @@ export const nll = async (): Promise<SportsEvent[]> => {
   );
   const json = await response.json();
 
-  const games = [];
-  for (const game of Object.values(json)) {
+  const games: SportsEvent[] = [];
+  for (const game of Object.values<any>(json)) {
     if (game) {
       for (const event of game.events) {
         const home = event.event.top;
