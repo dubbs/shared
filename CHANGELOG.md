@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.0](https://github.com/dubbs/shared/compare/v1.2.3...v1.3.0) (2024-09-08)
+
+
+### Features
+
+* add shared from dashboard ([dc9918e](https://github.com/dubbs/shared/commit/dc9918e0fa4f49f28592ff7bd3fa32582f8e08a6))
+* add tickets ([391319d](https://github.com/dubbs/shared/commit/391319db4a51d5890a9de20519a8915ba2a1d30a))
+
 ## [1.2.3](https://github.com/dubbs/shared/compare/v1.2.2...v1.2.3) (2024-09-08)
 
 
