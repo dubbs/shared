@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.2](https://github.com/dubbs/shared/compare/v1.3.1...v1.3.2) (2024-09-08)
+
+
+### Bug Fixes
+
+* move tests ([847f5cc](https://github.com/dubbs/shared/commit/847f5ccc2da29fd18eab9f1e77182f039809067c))
+
 ## [1.3.1](https://github.com/dubbs/shared/compare/v1.3.0...v1.3.1) (2024-09-08)
 
 
