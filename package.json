@@ -5,8 +5,8 @@
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
-    "test": "jest",
-    "test:mock": "jest --testNamePattern MockTest",
+    "test": "jest --testNamePattern MockTest",
+    "test:all": "jest",
     "test:watch": "jest --watch",
     "docs": "typedoc src/index.ts"
   },
