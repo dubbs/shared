@@ -1,11 +1,11 @@
 import type { SportsEvent } from "./schema";
+import type { SportsCfl } from "./sports-cfl.types";
+import { fetchJson } from "./fetch";
 
-export const CflFootballRiders = async () => {
-  // https://next-gen.sports.bellmedia.ca/v2/schedule/sports/football/leagues/cfl?brand=tsn&lang=en&season=2024
-  const data = await fetch(
+export const sportsCfl = async () => {
+  const result = (await fetchJson(
     `https://stats.sports.bellmedia.ca/sports/football/leagues/cfl/schedule/competitors/1073?brand=tsn&type=json`,
-  );
-  const result = await data.json();
+  )) as SportsCfl;
   const parseLocality = (venue: string) => {
     if (venue.includes("Mosaic")) {
       return "Regina";

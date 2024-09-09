@@ -1,9 +1,9 @@
 import { expect, test } from "@jest/globals";
-import { getCHL } from "./chl";
+import { sportsChl } from "./chl";
 import { dateFormatIsoShort, dateTomorrow, dateYesterday } from "./date";
 
 test("should have api available (NetworkTest)", async () => {
-  const blades = await getCHL("https://chl.ca/whl/schedule/all/284/");
+  const blades = await sportsChl("https://chl.ca/whl/schedule/all/284/");
   expect(blades).not.toHaveLength(0);
 });
 
@@ -89,7 +89,7 @@ test("should call gameCentre when for current game only", async () => {
     });
 
   global.fetch = mockFetch;
-  const blades = await getCHL("https://chl.ca/whl/schedule/all/284/");
+  const blades = await sportsChl("https://chl.ca/whl/schedule/all/284/");
   expect(mockFetch).toHaveBeenCalledTimes(2);
   expect(mockFetch).toHaveBeenLastCalledWith(
     "https://lscluster.hockeytech.com/feed/?feed=gc&key=f1aa699db3d81487&game_id=TODAY&client_code=whl&tab=clock&lang_code=en&fmt=json",
@@ -120,7 +120,7 @@ data: [["",["2024-03-28","Thu, Mar 28"],["https:\\/\\/assets.leaguestat.com\\/wh
           },
         }),
     });
-  const blades = await getCHL("https://chl.ca/whl/schedule/all/284/");
+  const blades = await sportsChl("https://chl.ca/whl/schedule/all/284/");
   expect(blades[blades.length - 4].startDate).toBe("2024-05-05T06:00:00Z");
   expect(blades[blades.length - 4].sport).toBe("WHL");
   expect(blades[blades.length - 4].awayTeam.name).toBe("Saskatoon");

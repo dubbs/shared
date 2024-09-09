@@ -1,6 +1,6 @@
 import type { SportsEvent } from "./schema";
 
-export const espn = async (
+export const sportsEspn = async (
   sport: string, // football
   league: string, // nfl
 ): Promise<SportsEvent[]> => {

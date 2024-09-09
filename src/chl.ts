@@ -9,7 +9,7 @@ export const gameCentre = async (gameId: string) => {
   return json.GC.Clock;
 };
 
-export const getCHL = async (url: string) => {
+export const sportsChl = async (url: string) => {
   const response = await fetch(url);
   const html = await response.text();
   const matches = html.matchAll(/data\: (\[\[[\S\s]+?\]\])/gi);

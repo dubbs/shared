@@ -1,8 +1,8 @@
 import { expect, test } from "@jest/globals";
-import { espn } from "./espn";
+import { sportsEspn } from "./sportsEspn";
 
 test("should have api available (NetworkTest)", async () => {
-  const games = await espn("hockey", "nhl");
+  const games = await sportsEspn("hockey", "nhl");
   if (games.length) {
     expect(games[0].startDate).toHaveLength(20);
     expect(games[0].sport).toBe("NHL");
@@ -47,7 +47,7 @@ test("should map response to SportEvent (MockTest)", async () => {
     ok: true,
     json: () => Promise.resolve(mockResponse),
   });
-  const games = await espn("hockey", "nhl");
+  const games = await sportsEspn("hockey", "nhl");
   expect(games[0].location.description).toBe(mockGame.location);
   expect(games[0].startDate).toBe(mockGame.date);
   expect(games[0].awayTeam.name).toBe(mockGame.competitors[0].displayName);

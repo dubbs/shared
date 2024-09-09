@@ -11,12 +11,12 @@ export * from "./fetch";
 
 export * from "./wcbl";
 export * from "./rattlers";
-export * from "./cfl-football-riders";
+export * from "./sports-cfl";
 export * from "./usports-hockey-huskies-men";
 export * from "./pjhl-hockey-westleys";
 export * from "./smaaahl-hockey-contacts";
 export * from "./sjhl-hockey-league";
 export * from "./ashl-hockey";
-export * from "./espn";
+export * from "./sportsEspn";
 export * from "./chl";
 export * from "./iihf";
