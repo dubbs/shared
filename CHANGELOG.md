@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.1](https://github.com/dubbs/shared/compare/v1.4.0...v1.4.1) (2024-09-09)
+
+
+### Bug Fixes
+
+* add types to cfl ([f74b059](https://github.com/dubbs/shared/commit/f74b059c362103b81a2fddce170026a72c3459bb))
+* update weather test ([c77f339](https://github.com/dubbs/shared/commit/c77f3399b75ccd32d27084ff3a37093ffe883e5c))
+
 ## [1.4.0](https://github.com/dubbs/shared/compare/v1.3.2...v1.4.0) (2024-09-08)
 
 
