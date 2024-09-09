@@ -1,58 +1,96 @@
-import { xmlUrlToJson, dateFormatTime } from "./index";
+import { xmlUrlToJson, dateFormatTime, dateFromPlainString } from "./index";
 
 export type WeatherAirQuality = {
   title: string;
   healthIndex: number;
 };
 
+export type WeatherRemoteCityPage = {
+  siteData: {
+    riseSet: {
+      dateTime: {
+        $: {
+          name: string;
+          zone: string;
+        };
+        year: string[];
+        month: {
+          _: string;
+          $: {
+            name: string;
+          };
+        }[];
+        day: {}[];
+        hour: string[];
+        minute: string[];
+        timeStamp: string[];
+      }[];
+    }[];
+    forecastGroup: {};
+    hourlyForecastGroup: {
+      dateTime: {}[];
+      hourlyForecast: {
+        $: {
+          dateTimeUTC: string;
+        };
+        temperature: {
+          _: string;
+        }[];
+        condition: {
+          _: string;
+        }[];
+        windChill: {
+          _: string;
+        }[];
+      }[];
+    }[];
+    currentConditions: {
+      dateTime: {
+        timeStamp: string;
+        $: {
+          zone: string;
+        };
+      }[];
+      condition: {}[];
+      temperature: {
+        _: string;
+      }[];
+      windChill: {
+        _: string;
+      }[];
+      wind: {
+        speed: {
+          _: string;
+        }[];
+        direction: {}[];
+      }[];
+    }[];
+  };
+};
+
 export const weather = async () => {
-  const dateObjectToDateTime = (obj) => {
-    return dateStringToDate(obj.find((x) => x.$.zone === "UTC").timeStamp[0]);
-  };
-
-  // 2022-12-04:10:10:10.000Z
-  const dateStringToDate = (currentDateTimeString: string) => {
-    const currentDateTimeStringParsed =
-      [
-        currentDateTimeString.slice(0, 4),
-        currentDateTimeString.slice(4, 6),
-        currentDateTimeString.slice(6, 8),
-      ].join("-") +
-      "T" +
-      [
-        currentDateTimeString.slice(8, 10),
-        currentDateTimeString.slice(10, 12),
-        currentDateTimeString.slice(12, 14),
-      ].join(":") +
-      ".000Z";
-    return new Date(currentDateTimeStringParsed);
-  };
-
-  const result = await xmlUrlToJson(
+  const result = (await xmlUrlToJson(
     "https://dd.weather.gc.ca/citypage_weather/xml/SK/s0000797_e.xml",
-  );
+  )) as WeatherRemoteCityPage;
 
-  const sunriseAndSunsetSrc = result.siteData.riseSet[0].dateTime;
+  const sunriseSrcString =
+    result.siteData.riseSet[0].dateTime.find(
+      (x) => x.$.name == "sunrise" && x.$.zone === "UTC",
+    )?.timeStamp[0] || "";
 
-  const sunriseSrcString = sunriseAndSunsetSrc.find(
-    (x) => x.$.name == "sunrise" && x.$.zone === "UTC",
-  ).timeStamp[0];
-  const sunrise = dateFormatTime(dateStringToDate(sunriseSrcString));
-
-  const sunsetSrcString = sunriseAndSunsetSrc.find(
-    (x) => x.$.name == "sunset" && x.$.zone === "UTC",
-  ).timeStamp[0];
-  const sunset = dateFormatTime(dateStringToDate(sunsetSrcString));
+  const sunsetSrcString =
+    result.siteData.riseSet[0].dateTime.find(
+      (x) => x.$.name == "sunset" && x.$.zone === "UTC",
+    )?.timeStamp[0] || "";
 
   const current = result.siteData.currentConditions[0];
-  const currentDateTimeFormatted = dateFormatTime(
-    dateObjectToDateTime(current.dateTime),
-  );
+  const currentTimestamp =
+    current.dateTime.find((x) => x.$.zone === "UTC")?.timeStamp[0] || "";
 
   const forecastHourlySrc = result.siteData.hourlyForecastGroup[0];
   const forecastHourly = forecastHourlySrc.hourlyForecast.map((x) => {
     return {
-      date: dateFormatTime(dateStringToDate(x.$.dateTimeUTC + "00")),
+      date: dateFormatTime(dateFromPlainString(x.$.dateTimeUTC + "00")),
       temperature: Number(x.temperature[0]._),
       condition: x.condition[0],
       windChill: Number(x.windChill[0]._),
@@ -65,16 +103,18 @@ export const weather = async () => {
   }));
 
   return {
-    currentDateTimeFormatted,
+    currentDateTimeFormatted: dateFormatTime(
+      dateFromPlainString(currentTimestamp),
+    ),
     currentCondition: current.condition[0],
     currentTemp: current.temperature[0]._,
     currentWindChill: current.windChill?.[0]._,
     currentWindSpeed: current.wind[0].speed[0]._ + " km/h",
     currentWindDirection: current.wind[0].direction[0],
-    forecastDaily: forecastDaily,
+    forecastDaily,
     forecastHourly,
-    sunrise,
-    sunset,
+    sunrise: dateFormatTime(dateFromPlainString(sunriseSrcString)),
+    sunset: dateFormatTime(dateFromPlainString(sunsetSrcString)),
   };
 };
 

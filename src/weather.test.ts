@@ -15,12 +15,11 @@ test("should have api available (NetworkTest)", async () => {
   expect(weather).toHaveProperty("sunset");
 });
 
-test("should map response (MockTest)", async () => {
+test("WIP should map response (MockTest)", async () => {
   global.fetch = jest.fn().mockResolvedValue({
     ok: true,
     text: () =>
       Promise.resolve(`
-           
 <?xml version="1.0" encoding="UTF-8"?>
 <siteData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://dd.weather.gc.ca/citypage_weather/schema/site.xsd">
    <license>https://dd.weather.gc.ca/doc/LICENCE_GENERAL.txt</license>

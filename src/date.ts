@@ -78,3 +78,17 @@ export const dateFormatLong = (date: Date): string => {
     timeZone: "America/Regina",
   }).format(date);
 };
+
+/**
+ * @example
+ *  dateFromPlainString('20240908193600')
+ * @param currentDateTimeString
+ */
+export const dateFromPlainString = (str: string) => {
+  return new Date(
+    [str.slice(0, 4), str.slice(4, 6), str.slice(6, 8)].join("-") +
+      "T" +
+      [str.slice(8, 10), str.slice(10, 12), str.slice(12, 14)].join(":") +
+      ".000Z",
+  );
+};
