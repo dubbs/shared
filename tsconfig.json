@@ -8,6 +8,6 @@
     "resolveJsonModule": true,  // Allow importing JSON files
     "noImplicitAny": false,
   },
-  "include": ["src/saskatoon.ts"],
+  "include": ["src/index.ts"],
   "exclude": ["node_modules"]
 }

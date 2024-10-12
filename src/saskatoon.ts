@@ -1,53 +1,16 @@
-import puppeteer, { Page } from "puppeteer";
-import crypto from "crypto";
-import fs from "fs";
-import { mdFromHtml, mdToHtml } from "./markdown";
+import puppeteer from "puppeteer";
+import { JSDOM } from "jsdom";
+import { cacheable } from "./cacheable";
 
 const waitFor = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-const cacheable = async (fn: any, url: string): Promise<any> => {
-  const hash = crypto.createHash("sha256").update(url).digest("hex");
-  const fnName = fn.name;
-  const filename = `./public/cache/${fnName}-${hash}.json`;
-  let data: any = null;
-  if (fs.existsSync(filename)) {
-    data = JSON.parse(fs.readFileSync(filename, "utf8"));
-
-    // const fileContents = fs.readFileSync(filename, "utf8");
-    // if (fileContents.startsWith("{") || fileContents.startsWith("[")) {
-    //   console.log("good");
-    //   data = JSON.parse(fs.readFileSync(filename, "utf8"));
-    // } else {
-    //   console.log("bad", url);
-    //   data = {
-    //     html: fileContents,
-    //   };
-    //   fs.writeFileSync(filename, JSON.stringify(data));
-    // }
-  } else {
-    // console.log("not found", url);
-    data = await fn(url);
-    if (!fs.existsSync("./public/cache")) {
-      fs.mkdirSync("./public/cache");
-    }
-    fs.writeFileSync(filename, JSON.stringify(data));
-  }
-  return data;
-};
-
-export const puppeteerPageFromUrl = async (url: string): Promise<Page> => {
-  const browser = await puppeteer.launch({});
-  const page = await browser.newPage();
-  await page.setViewport({ width: 1920, height: 1080 });
-  await page.setUserAgent(
-    "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36",
-  );
-
-  await page.goto(url);
-  return page;
-};
-
-export const saskatoonEngageProjects = async (url: string): Promise<any[]> => {
+/**
+ * Get the project listing from the Saskatoon Engage website
+ * @param url
+ */
+export const saskatoonEngageProjectListing = async (
+  url: string,
+): Promise<any[]> => {
   const browser = await puppeteer.launch({});
   const page = await browser.newPage();
   await page.setViewport({ width: 1920, height: 1080 });
@@ -100,6 +63,42 @@ export const saskatoonEngageProjects = async (url: string): Promise<any[]> => {
   return projects;
 };
 
+/**
+ * Get the timeline data from the Saskatoon Engage project page
+ * @param html
+ */
+export const saskatoonEngageProjectTimelineData = async (html: string) => {
+  const dom = new JSDOM(html);
+  const document = dom.window.document;
+  let data: any[] = [];
+
+  const items = document.querySelectorAll(".timeline-wrap");
+
+  for (const item of items) {
+    let status = "inactive";
+    if (item.classList.contains("completed")) {
+      status = "completed";
+    } else if (item.classList.contains("active")) {
+      status = "active";
+    }
+    let title = item.querySelector("h4")?.textContent;
+    let description = item.querySelector(
+      ".field--name-field-engage-details",
+    )?.textContent;
+    data.push({
+      status,
+      title,
+      description,
+    });
+  }
+
+  return data;
+};
+
+/**
+ * Get the project timeline from the Saskatoon Engage website
+ * @param url
+ */
 export const saskatoonEngageProjectTimeline = async (url: string) => {
   const browser = await puppeteer.launch({});
   const page = await browser.newPage();
@@ -120,23 +119,28 @@ export const saskatoonEngageProjectTimeline = async (url: string) => {
   return timeline;
 };
 
-const projects = await cacheable(
-  saskatoonEngageProjects,
-  "https://www.saskatoon.ca/engage/projects",
-);
-for (const project of projects) {
-  const { html } = await cacheable(
-    saskatoonEngageProjectTimeline,
-    project.href,
-  );
-  project.timeline = mdToHtml(mdFromHtml(`<ul>${html}</ul>`));
-  console.log(project);
-}
-// try {
-//   const project = await saskatoonEngageProject(
-//     "https://www.saskatoon.ca/AdilmanandGoerzen",
-//   );
-//   console.log(JSON.stringify(project, null, 2));
-// } catch (e) {
-//   console.log(e);
-// }
+/**
+ * Get the project listing with timeline data from the Saskatoon Engage website
+ * @param url
+ */
+export const saskatoonEngageProjects = async (url: string) => {
+  const projects = await cacheable(saskatoonEngageProjectListing, url);
+
+  for (const project of projects) {
+    const { html } = await cacheable(
+      saskatoonEngageProjectTimeline,
+      project.href,
+    );
+
+    const timelineData = await saskatoonEngageProjectTimelineData(html);
+    project.timelineData = timelineData;
+  }
+  return projects;
+};
+
+// const projects = await cacheable(
+//   saskatoonEngageProjects,
+//   "https://www.saskatoon.ca/engage/projects",
+// );
+//
+// console.log(projects);
