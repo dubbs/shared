@@ -8,5 +8,6 @@
     "resolveJsonModule": true,  // Allow importing JSON files
     "noImplicitAny": false,
   },
-  "include": ["src"],
+  "include": ["src/index.ts"],
+  "exclude": ["node_modules"]
 }

@@ -178,9 +178,7 @@ export const puppeteerGetHtml = async (url: string): Promise<string> => {
   const browser = await puppeteer.launch({});
   const page = await browser.newPage();
   await page.setViewport({ width: 1920, height: 1080 });
-  await page.setUserAgent(
-    "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36",
-  );
+  await page.setUserAgent(process.env.USER_AGENT || "");
 
   await page.goto(url);
   return await page.content();
