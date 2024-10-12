@@ -14,9 +14,7 @@ export const saskatoonEngageProjectListing = async (
   const browser = await puppeteer.launch({});
   const page = await browser.newPage();
   await page.setViewport({ width: 1920, height: 1080 });
-  await page.setUserAgent(
-    "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36",
-  );
+  await page.setUserAgent(process.env.USER_AGENT || "");
 
   await page.goto(url);
 
@@ -103,9 +101,7 @@ export const saskatoonEngageProjectTimeline = async (url: string) => {
   const browser = await puppeteer.launch({});
   const page = await browser.newPage();
   await page.setViewport({ width: 1920, height: 1080 });
-  await page.setUserAgent(
-    "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36",
-  );
+  await page.setUserAgent(process.env.USER_AGENT || "");
 
   await page.goto(url);
   const timeline = await page.evaluate(() => {
@@ -137,10 +133,3 @@ export const saskatoonEngageProjects = async (url: string) => {
   }
   return projects;
 };
-
-// const projects = await cacheable(
-//   saskatoonEngageProjects,
-//   "https://www.saskatoon.ca/engage/projects",
-// );
-//
-// console.log(projects);
