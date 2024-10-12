@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/dubbs/shared/compare/v1.4.1...v1.5.0) (2024-10-12)
+
+
+### Features
+
+* add saskatoon projects ([#15](https://github.com/dubbs/shared/issues/15)) ([4e04803](https://github.com/dubbs/shared/commit/4e0480332cb2202bf0a822ee08e8f4efd2a145ab))
+
 ## [1.4.1](https://github.com/dubbs/shared/compare/v1.4.0...v1.4.1) (2024-09-09)
 
 
